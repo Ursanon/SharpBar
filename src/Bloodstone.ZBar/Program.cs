@@ -14,6 +14,13 @@ namespace Bloodstone.ZBar
 
             var length = 10;
             var (left, top) = Console.GetCursorPosition();
+
+            var isLastLine = top == height - 1;
+            if (isLastLine)
+            {
+                --top;
+            }
+
             Console.CursorVisible = false;
 
             var message = new StringBuilder();
@@ -28,6 +35,11 @@ namespace Bloodstone.ZBar
 
                 Console.SetCursorPosition(left, top);
                 var progress = (float)i / (length - 1);
+
+                if (isLastLine)
+                {
+                    message.Append(Environment.NewLine);
+                }
 
                 message.Append('[');
 
@@ -51,8 +63,8 @@ namespace Bloodstone.ZBar
 
                 Console.Write(message);
             }
-            Console.CursorVisible = true;
 
+            Console.CursorVisible = true;
 
             await Task.CompletedTask;
         }
