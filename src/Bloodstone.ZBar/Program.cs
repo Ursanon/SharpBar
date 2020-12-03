@@ -25,6 +25,7 @@ namespace Bloodstone.ZBar
 
             var message = new StringBuilder();
             var sw = new Stopwatch();
+            var lastElapsed = sw.Elapsed;
             for (var i = 0; i < length; ++i)
             {
                 message.Clear();
@@ -42,8 +43,8 @@ namespace Bloodstone.ZBar
                 }
 
                 message.Append('[');
-
-                var progressStr = $" [{progress:P2}|{CalculateTotalTime(sw)}/it]";
+                var remaining = sw.Elapsed * (length - 1 - i);
+                var progressStr = $" [{progress:P2}|{CalculateTotalTime(sw.Elapsed)}/it|{CalculateTotalTime(remaining)}]";
                 var offset = 2 + progressStr.Length;
 
                 var p = Math.Floor(progress * (width - offset));
@@ -62,6 +63,8 @@ namespace Bloodstone.ZBar
                        .Append(progressStr);
 
                 Console.Write(message);
+
+                lastElapsed = sw.Elapsed;
             }
 
             Console.CursorVisible = true;
@@ -69,14 +72,12 @@ namespace Bloodstone.ZBar
             await Task.CompletedTask;
         }
 
-        private static string CalculateTotalTime(Stopwatch sw)
+        private static string CalculateTotalTime(TimeSpan ts)
         {
-            var elapsed = sw.Elapsed;
-
-            return elapsed.TotalMilliseconds switch
+            return ts.TotalMilliseconds switch
             {
-                < 100 => $"{elapsed.TotalMilliseconds:F2} ms",
-                >= 100 => $"{elapsed.TotalSeconds:F2} s",
+                >= 100 => $"{ts.TotalSeconds:F2} s",
+                < 100 => $"{ts.TotalMilliseconds:F2} ms",
                 _ => throw new InvalidOperationException()
             };
         }
