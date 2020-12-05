@@ -51,7 +51,7 @@ namespace Bloodstone.ZBar
 
                 for (var j = 0; j < p; ++j)
                 {
-                    message.Append('|');
+                    message.Append((char)9608);
                 }
 
                 for (var j = p; j < (width - offset); ++j)
@@ -62,7 +62,7 @@ namespace Bloodstone.ZBar
                 message.Append(']')
                        .Append(progressStr);
 
-                Console.Write(message);
+                Console.WriteLine(message);
 
                 lastElapsed = sw.Elapsed;
             }
