@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text;
 
-namespace Bloodstone.ZBar
+namespace SharpBar
 {
     public sealed class ProgressBar : IDisposable
     {

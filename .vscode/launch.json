@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Bloodstone.ZBar demo",
+            "name": "SharpBar.Sample",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Bloodstone.ZBar/bin/Debug/net5.0/Bloodstone.ZBar.dll",
+            "program": "${workspaceFolder}/samples/SharpBar.Sample/bin/Debug/net5.0/SharpBar.Sample.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Bloodstone.ZBar",
+            "cwd": "${workspaceFolder}/samples/SharpBar.Sample",
             "stopAtEntry": false,
             "console": "internalConsole"
         }
