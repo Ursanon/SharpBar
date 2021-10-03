@@ -1,10 +1,10 @@
-﻿using SharpBar;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using SharpBar;
 
 namespace SharpBar.Sample
 {
-    class Program
+    public static class Program
     {
         public static async Task Main()
         {

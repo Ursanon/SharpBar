@@ -4,6 +4,9 @@ using System.Text;
 
 namespace SharpBar
 {
+    /// <summary>
+    /// Progress bar.
+    /// </summary>
     public sealed class ProgressBar : IDisposable
     {
         private readonly int _top;
@@ -16,6 +19,10 @@ namespace SharpBar
 
         private ulong _current = 0;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProgressBar"/> class.
+        /// </summary>
+        /// <param name="length">Length</param>
         public ProgressBar(ulong length)
         {
             _length = length;
@@ -39,10 +46,14 @@ namespace SharpBar
             RaportProgress();
         }
 
+        /// <summary>
+        /// Progress raporting method.
+        /// Should be invoked by user.
+        /// </summary>
         public void RaportProgress()
         {
             Console.SetCursorPosition(_left, _top);
-            var progress = (float)_current / (_length);
+            var progress = (float)_current / _length;
 
             _message.Append('[');
             var remaining = _stopwatch.Elapsed * (_length - _current);
@@ -72,6 +83,9 @@ namespace SharpBar
             _stopwatch.Restart();
         }
 
+        /// <summary>
+        /// Disposes object
+        /// </summary>
         public void Dispose()
         {
             Console.CursorVisible = true;
@@ -83,7 +97,7 @@ namespace SharpBar
             {
                 >= 100 => $"{ts.TotalSeconds:F2} s",
                 < 100 => $"{ts.TotalMilliseconds:F2} ms",
-                _ => throw new InvalidOperationException()
+                _ => throw new InvalidOperationException(),
             };
         }
     }
