@@ -9,7 +9,7 @@
             "type": "shell",
             "args": [
                 "build",
-                "${workspaceFolder}/src",
+                "${workspaceFolder}/samples",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

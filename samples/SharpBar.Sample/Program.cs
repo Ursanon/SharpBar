@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SharpBar;
+using System;
 using System.Threading.Tasks;
 
-namespace Bloodstone.ZBar
+namespace SharpBar.Sample
 {
-    public class Program
+    class Program
     {
         public static async Task Main()
         {
