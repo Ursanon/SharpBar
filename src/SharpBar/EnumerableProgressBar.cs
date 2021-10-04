@@ -1,36 +1,42 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace SharpBar
 {
     /// <summary>
-    /// Progress bar.
+    /// Enumerable progress bar
     /// </summary>
-    public sealed class ProgressBar : IProgressBar, IDisposable
+    public class EnumerableProgressBar<T> : IProgressBar, IEnumerable<T>
     {
         private readonly int _top;
         private readonly int _left;
         private readonly int _width;
         private readonly int _height;
-        private readonly ulong _length;
+        private readonly int _length;
         private readonly Stopwatch _stopwatch;
         private readonly StringBuilder _message;
+        private readonly IEnumerable<T> _collection;
 
-        private ulong _current = 0;
+        private int _current = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProgressBar"/> class.
+        /// Initializes a new instance of the <see cref="EnumerableProgressBar{T}"/> class.
         /// </summary>
-        /// <param name="length">Length</param>
-        public ProgressBar(ulong length)
+        /// <param name="enumerable">Length</param>
+        public EnumerableProgressBar(IEnumerable<T> enumerable)
         {
-            _length = length;
+            _collection = enumerable;
+            _length = enumerable.Count();
+
             _stopwatch = new Stopwatch();
             _message = new StringBuilder();
 
             Console.CursorVisible = false;
-
+            Console.WriteLine("1");
             _width = Console.BufferWidth;
             _height = Console.BufferHeight;
 
@@ -42,8 +48,6 @@ namespace SharpBar
                 --_top;
                 _message.Append(Environment.NewLine);
             }
-
-            ReportProgress();
         }
 
         /// <summary>
@@ -89,6 +93,18 @@ namespace SharpBar
         public void Dispose()
         {
             Console.CursorVisible = true;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new ProgressBarEnumerator<T>(this, _collection);
+        }
+
+        /// <inheritdoc/>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         private static string CalculateTotalTime(TimeSpan ts)
