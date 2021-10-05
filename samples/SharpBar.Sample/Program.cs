@@ -13,16 +13,6 @@ namespace SharpBar.Sample
         {
             var length = 10ul;
 
-            using (var progress = new ProgressBar(length))
-            {
-                for (var i = 0ul; i < length; ++i)
-                {
-                    await DoStuff();
-
-                    progress.ReportProgress();
-                }
-            }
-
             var collection = Enumerable.Range(0, 10);
 
             foreach (var i in collection.WithProgress())

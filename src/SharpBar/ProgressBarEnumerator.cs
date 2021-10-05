@@ -38,9 +38,14 @@ namespace SharpBar
         /// <inheritdoc/>
         public bool MoveNext()
         {
-            _progressBar.ReportProgress();
+            if (_enumerator.MoveNext())
+            {
+                _progressBar.ReportProgress();
 
-            return _enumerator.MoveNext();
+                return true;
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>

@@ -5,31 +5,29 @@ using System.Text;
 namespace SharpBar
 {
     /// <summary>
-    /// Progress bar.
+    /// Abstract base class for progress bar
     /// </summary>
-    public sealed class ProgressBar : IProgressBar, IDisposable
+    public abstract class ProgressBarBase : IProgressBar
     {
         private readonly int _top;
         private readonly int _left;
         private readonly int _width;
         private readonly int _height;
-        private readonly ulong _length;
+        private readonly int _length;
         private readonly Stopwatch _stopwatch;
         private readonly StringBuilder _message;
 
-        private ulong _current = 0;
+        private int _current = 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProgressBar"/> class.
+        /// Initializes a new instance of the <see cref="ProgressBarBase"/> class.
         /// </summary>
-        /// <param name="length">Length</param>
-        public ProgressBar(ulong length)
+        protected ProgressBarBase(int length)
         {
             _length = length;
+
             _stopwatch = new Stopwatch();
             _message = new StringBuilder();
-
-            Console.CursorVisible = false;
 
             _width = Console.BufferWidth;
             _height = Console.BufferHeight;
@@ -46,11 +44,8 @@ namespace SharpBar
             ReportProgress();
         }
 
-        /// <summary>
-        /// Progress raporting method.
-        /// Should be invoked by user.
-        /// </summary>
-        public void ReportProgress()
+        /// <inheritdoc/>
+        public virtual void ReportProgress()
         {
             Console.SetCursorPosition(_left, _top);
             var progress = (float)_current / _length;
@@ -60,14 +55,15 @@ namespace SharpBar
             var progressStr = $" [{progress:P2}|{CalculateTotalTime(_stopwatch.Elapsed)}/it|{CalculateTotalTime(remaining)}]";
             var offset = 2 + progressStr.Length;
 
-            var emptyWidth = Math.Floor(progress * (_width - offset));
+            var emptyWidth = _width - offset;
+            var filledWidth = Math.Floor(progress * emptyWidth);
 
-            for (var j = 0; j < emptyWidth; ++j)
+            for (var i = 0; i < filledWidth; ++i)
             {
                 _message.Append((char)9608);
             }
 
-            for (var j = emptyWidth; j < (_width - offset); ++j)
+            for (var i = filledWidth; i < emptyWidth; ++i)
             {
                 _message.Append('-');
             }
@@ -81,14 +77,6 @@ namespace SharpBar
             _message.Clear();
 
             _stopwatch.Restart();
-        }
-
-        /// <summary>
-        /// Disposes object
-        /// </summary>
-        public void Dispose()
-        {
-            Console.CursorVisible = true;
         }
 
         private static string CalculateTotalTime(TimeSpan ts)
