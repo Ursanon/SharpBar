@@ -13,18 +13,18 @@ namespace SharpBar
         private readonly int _left;
         private readonly int _width;
         private readonly int _height;
-        private readonly int _length;
+        private readonly int _maxProgress;
         private readonly Stopwatch _stopwatch;
         private readonly StringBuilder _message;
 
-        private int _current = 0;
+        private int _progress = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProgressBarBase"/> class.
         /// </summary>
-        protected ProgressBarBase(int length)
+        protected ProgressBarBase(int maxProgress)
         {
-            _length = length;
+            _maxProgress = maxProgress;
 
             _stopwatch = new Stopwatch();
             _message = new StringBuilder();
@@ -35,9 +35,11 @@ namespace SharpBar
             (_left, _top) = Console.GetCursorPosition();
 
             var isLastLine = _top == _height - 1;
+
             if (isLastLine)
             {
                 --_top;
+
                 _message.Append(Environment.NewLine);
             }
 
@@ -47,16 +49,17 @@ namespace SharpBar
         /// <inheritdoc/>
         public virtual void ReportProgress()
         {
+            var remainingTime = _stopwatch.Elapsed * (_maxProgress - _progress);
+
             Console.SetCursorPosition(_left, _top);
-            var progress = (float)_current / _length;
+            var percentage = (float)_progress / _maxProgress;
 
             _message.Append('[');
-            var remaining = _stopwatch.Elapsed * (_length - _current);
-            var progressStr = $" [{progress:P2}|{CalculateTotalTime(_stopwatch.Elapsed)}/it|{CalculateTotalTime(remaining)}]";
-            var offset = 2 + progressStr.Length;
+            var pergentageMessage = $" [{percentage:P2}|{ToDisplayTime(_stopwatch.Elapsed)}/it|{ToDisplayTime(remainingTime)}]";
+            var offset = 2 + pergentageMessage.Length;
 
             var emptyWidth = _width - offset;
-            var filledWidth = Math.Floor(progress * emptyWidth);
+            var filledWidth = Math.Floor(percentage * emptyWidth);
 
             for (var i = 0; i < filledWidth; ++i)
             {
@@ -69,17 +72,17 @@ namespace SharpBar
             }
 
             _message.Append(']')
-                    .Append(progressStr);
+                    .Append(pergentageMessage);
 
             Console.WriteLine(_message);
 
-            _current++;
+            _progress++;
             _message.Clear();
 
             _stopwatch.Restart();
         }
 
-        private static string CalculateTotalTime(TimeSpan ts)
+        private static string ToDisplayTime(TimeSpan ts)
         {
             return ts.TotalMilliseconds switch
             {

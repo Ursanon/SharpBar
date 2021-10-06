@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using SharpBar;
 
@@ -11,8 +12,6 @@ namespace SharpBar.Sample
     {
         public static async Task Main()
         {
-            var length = 10ul;
-
             var collection = Enumerable.Range(0, 10);
 
             foreach (var i in collection.WithProgress())
@@ -20,12 +19,26 @@ namespace SharpBar.Sample
                 await DoStuff();
             }
 
-            await Task.CompletedTask;
+            foreach (var i in Coroutine().WithProgress())
+            {
+            }
         }
 
         private static async Task DoStuff()
         {
             await Task.Delay(TimeSpan.FromSeconds(0.5));
+        }
+
+        private static IEnumerable Coroutine()
+        {
+            for (var i = 0; i < 5; ++i)
+            {
+                Thread.Sleep(500);
+
+                yield return null;
+            }
+
+            yield return null;
         }
     }
 }

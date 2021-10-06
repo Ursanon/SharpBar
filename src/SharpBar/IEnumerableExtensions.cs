@@ -18,5 +18,15 @@ namespace SharpBar
         {
             return new EnumerableProgressBar<T>(collection);
         }
+
+        /// <summary>
+        /// Wraps collection with progress bar reporting
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public static EnumerableProgressBar WithProgress(this IEnumerable collection)
+        {
+            return new EnumerableProgressBar(collection);
+        }
     }
 }

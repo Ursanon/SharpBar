@@ -7,6 +7,30 @@ namespace SharpBar
     /// <summary>
     /// Enumerable progress bar
     /// </summary>
+    public class EnumerableProgressBar : ProgressBarBase, IEnumerable
+    {
+        private readonly IEnumerable _collection;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumerableProgressBar"/> class.
+        /// </summary>
+        /// <param name="enumerable">Length</param>
+        public EnumerableProgressBar(IEnumerable enumerable)
+            : base(((IEnumerable<object>)enumerable).Count())
+        {
+            _collection = enumerable;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator GetEnumerator()
+        {
+            return new ProgressBarEnumerator(this, _collection);
+        }
+    }
+
+    /// <summary>
+    /// Enumerable progress bar
+    /// </summary>
     public class EnumerableProgressBar<T> : ProgressBarBase, IEnumerable<T>
     {
         private readonly IEnumerable<T> _collection;
