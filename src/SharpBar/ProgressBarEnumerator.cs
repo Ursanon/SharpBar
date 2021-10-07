@@ -10,17 +10,18 @@ namespace SharpBar
     public class ProgressBarEnumerator : IEnumerator
     {
         private readonly IEnumerator _enumerator;
-        private readonly EnumerableProgressBar _progressBar;
+        private readonly IProgressBar _progressBar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProgressBarEnumerator"/> class.
         /// </summary>
         /// <param name="progressBar"></param>
-        /// <param name="collection"></param>
-        public ProgressBarEnumerator(EnumerableProgressBar progressBar, IEnumerable collection)
+        /// <param name="target"></param>
+        public ProgressBarEnumerator(IProgressBar progressBar, IEnumerable target)
         {
             _progressBar = progressBar;
-            _enumerator = collection.GetEnumerator();
+
+            _enumerator = target.GetEnumerator();
         }
 
         /// <inheritdoc/>
@@ -53,17 +54,17 @@ namespace SharpBar
     public class ProgressBarEnumerator<T> : IEnumerator<T>
     {
         private readonly IEnumerator<T> _enumerator;
-        private readonly EnumerableProgressBar<T> _progressBar;
+        private readonly IProgressBar _progressBar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProgressBarEnumerator{T}"/> class.
         /// </summary>
         /// <param name="progressBar"></param>
-        /// <param name="collection"></param>
-        public ProgressBarEnumerator(EnumerableProgressBar<T> progressBar, IEnumerable<T> collection)
+        /// <param name="target"></param>
+        public ProgressBarEnumerator(IProgressBar progressBar, IEnumerable<T> target)
         {
             _progressBar = progressBar;
-            _enumerator = collection.GetEnumerator();
+            _enumerator = target.GetEnumerator();
         }
 
         /// <inheritdoc/>

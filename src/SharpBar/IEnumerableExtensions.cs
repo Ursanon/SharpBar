@@ -11,22 +11,22 @@ namespace SharpBar
         /// <summary>
         /// Wraps collection with progress bar reporting
         /// </summary>
-        /// <param name="collection"></param>
+        /// <param name="target"></param>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static EnumerableProgressBar<T> WithProgress<T>(this IEnumerable<T> collection)
+        public static EnumerableProgressBar<T> WithProgress<T>(this IEnumerable<T> target)
         {
-            return new EnumerableProgressBar<T>(collection);
+            return new EnumerableProgressBar<T>(target);
         }
 
         /// <summary>
         /// Wraps collection with progress bar reporting
         /// </summary>
-        /// <param name="collection"></param>
+        /// <param name="target"></param>
         /// <returns></returns>
-        public static EnumerableProgressBar WithProgress(this IEnumerable collection)
+        public static EnumerableProgressBar WithProgress(this IEnumerable target)
         {
-            return new EnumerableProgressBar(collection);
+            return new EnumerableProgressBar(target);
         }
     }
 }
