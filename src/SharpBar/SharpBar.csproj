@@ -1,15 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Product>SharpBar</Product>
+    <Authors>Krzysztof Begiedza</Authors>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Summary>Simple progress bar for your C# console app</Summary>
+    <Copyright>Copyright © Krzysztof Begiedza 2021</Copyright>
+
     <Nullable>enable</Nullable>
     <TargetFramework>net5.0</TargetFramework>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <RootNamespace>SharpBar</RootNamespace>
+    <AssemblyName>SharpBar</AssemblyName>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <RepositoryUrl>https://github.com/Ursanon/SharpBar.git</RepositoryUrl>
+
+    <PackageId>SharpBar</PackageId>
+    <PackageIcon>icon128.png</PackageIcon>
+    <PackageTags>cli;progress</PackageTags>
+    <PackageProjectUrl>https://sharpbar.kbegiedza.eu</PackageProjectUrl>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup>
     <CodeAnalysisRuleSet>../../stylecop.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="../../docs/icon128.png" Pack="true" PackagePath="\"/>
+
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
