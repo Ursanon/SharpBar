@@ -11,7 +11,7 @@ This is companion repository for nuget package publish guide available [here](ht
 
 ```c#
 // include namespace
-using SharBar;
+using SharpBar;
 
 // use WithProgress() extension
 foreach (var i in collection.WithProgress())
